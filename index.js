@@ -35,16 +35,18 @@ async function run() {
       const result = await productCollection.insertOne(newProduct);
       res.send(result);
     });
+
+    // find all products from db
+    app.get("/get-product", async (req, res) => {
+      const query = {};
+      const cursor = productCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
   } finally {
     // client.close()
   }
 }
 run().catch(console.dir);
-
-app.post("/product", async (req, res) => {
-  console.log(req.body);
-
-  res.send();
-});
 
 app.listen(port, () => console.log(`running at http://localhost:${port}`));
