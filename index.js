@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
+const { MongoClient, ServerApiVersion } = require("mongodb");
 
 // middle wares
 const cors = require("cors");
@@ -10,6 +11,40 @@ app.use(express.json()); // express js build in body parser
 
 app.get("/", (req, res) => {
   res.send("Hello, Welcome!!");
+});
+
+// user: assingnment11
+// pass: wn4eB4NlECQSGmIU
+
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.eityj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverApi: ServerApiVersion.v1,
+});
+async function run() {
+  try {
+    await client.connect();
+    const productCollection = client.db("inventory").collection("product");
+
+    // create new product from client site with post method
+    app.post("/newproduct", async (req, res) => {
+      const newProduct = req.body;
+      console.log("new user from client site:", newProduct);
+      const result = await productCollection.insertOne(newProduct);
+      res.send(result);
+    });
+  } finally {
+    // client.close()
+  }
+}
+run().catch(console.dir);
+
+app.post("/product", async (req, res) => {
+  console.log(req.body);
+
+  res.send();
 });
 
 app.listen(port, () => console.log(`running at http://localhost:${port}`));
