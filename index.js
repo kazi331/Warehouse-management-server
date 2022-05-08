@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 
 // middle wares
 const cors = require("cors");
@@ -43,6 +43,15 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
+
+    // find a sinlge product 
+    app.get('/product/:pid', async (req, res)=> {
+      const id = req.params.pid;
+      const query = {_id: ObjectId(id)}
+      const cursor = await productCollection.findOne(query);
+      console.log(cursor);
+      res.send(cursor);
+    })
   } finally {
     // client.close()
   }
