@@ -38,20 +38,28 @@ async function run() {
 
     // find all products from db
     app.get("/get-product", async (req, res) => {
-      const query = {};
+      const query = {};   
       const cursor = productCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
     });
 
-    // find a sinlge product 
-    app.get('/product/:pid', async (req, res)=> {
+    // find a sinlge product
+    app.get("/product/:pid", async (req, res) => {
       const id = req.params.pid;
-      const query = {_id: ObjectId(id)}
+      const query = { _id: ObjectId(id) };
       const cursor = await productCollection.findOne(query);
       console.log(cursor);
       res.send(cursor);
-    })
+    });
+    // delete a product
+    app.delete("/delete/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await productCollection.deleteOne(query);
+      console.log(result);
+      res.send(result);
+    });
   } finally {
     // client.close()
   }
