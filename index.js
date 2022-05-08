@@ -13,8 +13,7 @@ app.get("/", (req, res) => {
   res.send("Hello, Welcome!!");
 });
 
-// user: assingnment11
-// pass: wn4eB4NlECQSGmIU
+
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.eityj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
