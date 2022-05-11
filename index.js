@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.eityj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
-
+console.log(uri);
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -60,7 +60,16 @@ async function run() {
       res.send(result)
       console.log(req.query);
     })
-
+    // update a product 
+   /*  app.put('/update/:id', async(req, res) => {
+      const id = req.params.id;
+      const user = req.body;
+      const filter = {_id: id}
+      const options = {upsert: true}
+      const updateUser =  {$set: user} 
+      const result = productCollection.updateOne(filter, updateUser , options)
+      console.log(user);
+    }) */
     // delete a product
     app.delete("/delete/:id", async (req, res) => {
       const id = req.params.id;
