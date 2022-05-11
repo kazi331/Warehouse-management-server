@@ -61,15 +61,16 @@ async function run() {
       console.log(req.query);
     })
     // update a product 
-   /*  app.put('/update/:id', async(req, res) => {
+    app.put('/update/:id', async(req, res) => {
       const id = req.params.id;
-      const user = req.body;
-      const filter = {_id: id}
+      const newData = req.body;
+      const filter = {_id: ObjectId(id)}
       const options = {upsert: true}
-      const updateUser =  {$set: user} 
-      const result = productCollection.updateOne(filter, updateUser , options)
-      console.log(user);
-    }) */
+      const updateData =  {$set: newData} 
+      const result = await productCollection.updateOne(filter, updateData , options);
+      res.send(result);
+      console.log(newData);
+    })
     // delete a product
     app.delete("/delete/:id", async (req, res) => {
       const id = req.params.id;
