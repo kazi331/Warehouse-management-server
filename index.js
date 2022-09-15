@@ -44,6 +44,9 @@ async function run() {
     });
     app.get("/products", async (req, res) => {
       res.send(await productCollection.find().toArray())
+    });
+    app.get("/me", async(req, res) => {
+      res.send({name: 'Sayem', age: 25, device: 'iphone 7 +'})
     })
     // find a sinlge product
     app.get("/product/:pid", async (req, res) => {
