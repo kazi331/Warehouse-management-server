@@ -37,12 +37,14 @@ async function run() {
 
     // find all products from db
     app.get("/get-product", async (req, res) => {
-      const query = {};   
+      const query = {};
       const cursor = productCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
     });
-
+    app.get("/products", async (req, res) => {
+      res.send(await productCollection.find().toArray())
+    })
     // find a sinlge product
     app.get("/product/:pid", async (req, res) => {
       const id = req.params.pid;
@@ -54,20 +56,20 @@ async function run() {
     // find my items product with supplier email 
     app.get('/my-items', async (req, res) => {
       const email = req.query.email;
-      const query = {sEmail: email}
+      const query = { sEmail: email }
       const cursor = productCollection.find(query);
       const result = await cursor.toArray();
       res.send(result)
       console.log(req.query);
     })
     // update a product 
-    app.put('/update/:id', async(req, res) => {
+    app.put('/update/:id', async (req, res) => {
       const id = req.params.id;
       const newData = req.body;
-      const filter = {_id: ObjectId(id)}
-      const options = {upsert: true}
-      const updateData =  {$set: newData} 
-      const result = await productCollection.updateOne(filter, updateData , options);
+      const filter = { _id: ObjectId(id) }
+      const options = { upsert: true }
+      const updateData = { $set: newData }
+      const result = await productCollection.updateOne(filter, updateData, options);
       res.send(result);
       console.log(newData);
     })
